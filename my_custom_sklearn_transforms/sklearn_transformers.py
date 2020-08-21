@@ -16,7 +16,7 @@ class DropColumns(BaseEstimator, TransformerMixin):
         return data.drop(labels=self.columns, axis='columns')
 
     
-class DropNans(BaseEstimator, TransformerMixin):
+class Dummy(BaseEstimator, TransformerMixin):
     def __init__(self):
         pass
 
@@ -27,5 +27,5 @@ class DropNans(BaseEstimator, TransformerMixin):
         # Primero copiamos el dataframe de datos de entrada 'X'
         data = X.copy()
         # Devolvemos un nuevo dataframe de datos sin las columnas no deseadas
-        return data.dropna()
+        return data
 
