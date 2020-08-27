@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split
+import numpy as np
+
 
 # All sklearn Transforms must have the `transform` and `fit` methods
 class DropColumns(BaseEstimator, TransformerMixin):
@@ -16,6 +18,21 @@ class DropColumns(BaseEstimator, TransformerMixin):
         data = X.copy()
         # Devolvemos un nuevo dataframe de datos sin las columnas no deseadas
         return data.drop(labels=self.columns, axis='columns')
+
+    
+class NaNSearch(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+
+    def fit(self, X, y=None):
+        return self
+    
+    def transform(self, X):
+        # Primero copiamos el dataframe de datos de entrada 'X'
+        data = X.copy()        
+        for c in data.columns[data.isna().any()].tolist():
+            data[c+'isnan'] = np.where(data[c].isna(), 1, -1)
+        return data
 
     
 class Dummy(BaseEstimator, TransformerMixin):
