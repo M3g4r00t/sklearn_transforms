@@ -29,10 +29,11 @@ class NaNSearch(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         # Primero copiamos el dataframe de datos de entrada 'X'
-        data = X.copy()        
+        data = X.copy()   
+        res = pd.DataFrame()
         for c in data.columns[data.isna().any()].tolist():
-            data[c+'isnan'] = np.where(data[c].isna(), 1, -1)
-        return data
+            res[c+'isnan'] = np.where(data[c].isna(), -1, 1)
+        return res
 
     
 class Dummy(BaseEstimator, TransformerMixin):
